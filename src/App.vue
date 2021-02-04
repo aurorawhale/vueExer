@@ -1,17 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <TodoHeader />
+    <TodoTitle />
+    <TodoInput />
+    <TodoController />
+    <TodoList />
+    <TodoFooter />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TodoController from './components/TodoController';
+import TodoFooter from "@/components/TodoFooter";
+import TodoHeader from "@/components/TodoHeader";
+import TodoInput from "@/components/TodoInput";
+import TodoList from "@/components/TodoList";
+import TodoTitle from "@/components/TodoTitle";
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TodoController,
+    TodoList,
+    TodoTitle,
+    TodoInput,
+    TodoHeader,
+    TodoFooter
   }
 }
 </script>
