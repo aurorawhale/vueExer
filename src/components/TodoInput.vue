@@ -16,13 +16,8 @@ export default {
   },
   methods: {
     addTodoItem() {
-      if (this.newTodoItem !== '') {
-        let value = {
-          item: this.newTodoItem,
-          date: `${new Date().getMonth() + 1}/${new Date().getDate()}`,
-          completed: false
-        };
-        localStorage.setItem(this.newTodoItem, JSON.stringify(value));
+      if (this.newTodoItem !== ""){
+        this.$emit("addItem", this.newTodoItem);
         this.clearInput();
       }
     },

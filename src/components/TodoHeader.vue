@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import getDate from "../assets/commonJS/getDate";
+import getDate from "@/assets/commonJS/getDate";
 
 export default {
   data() {
@@ -15,7 +15,7 @@ export default {
     };
   },
   created() {
-    this.timestamp = `${getDate().month}/${getDate().date} ${getDate().week}`;
+    this.timestamp = `${getDate().month}/${getDate().date} ${getDate().week}`
   }
 };
 </script>

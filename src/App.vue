@@ -2,42 +2,69 @@
   <div id="app">
     <TodoHeader />
     <TodoTitle />
-    <TodoInput />
-    <TodoController />
-    <TodoList />
+    <TodoInput v-on:addItem="addOneItem"/>
+    <TodoController v-on:clearAll="clearAllItem"/>
+    <TodoList v-bind:propsdata="todoItems" v-on:removeItem="removeOneItem" v-on:toggleItem="toggleOneItem"/>
     <TodoFooter />
   </div>
 </template>
 
 <script>
-import TodoController from './components/TodoController';
-import TodoFooter from "@/components/TodoFooter";
-import TodoHeader from "@/components/TodoHeader";
-import TodoInput from "@/components/TodoInput";
-import TodoList from "@/components/TodoList";
-import TodoTitle from "@/components/TodoTitle";
+import TodoController from "./components/TodoController";
+import TodoFooter from "./components/TodoFooter";
+import TodoHeader from "./components/TodoHeader";
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
+import TodoTitle from "./components/TodoTitle";
 
+import getDate from "./assets/commonJS/getDate";
 
 export default {
-  name: 'App',
+  data() {
+    return {
+      todoItems: []
+    };
+  },
+  created() {
+    if(localStorage.length > 0) {
+      for (let i = 0; i < localStorage.length; i++){
+        this.todoItems.push(
+            JSON.parse(localStorage.getItem(localStorage.key(i)))
+        );
+      }
+    }
+  },
   components: {
-    TodoController,
-    TodoList,
     TodoTitle,
+    TodoController,
     TodoInput,
+    TodoFooter,
     TodoHeader,
-    TodoFooter
-  }
-}
+    TodoList
+  },
+  methods: {
+    addOneItem(todoItem) {
+      let value = {
+        item: todoItem,
+        date: `${getDate().date} ${getDate().week}`,
+        time: getDate().time,
+        completed: false
+      }
+      localStorage.setItem(todoItem, JSON.stringify(value));
+      this.todoItems.push(value);
+    },
+    removeOneItem(todoItem, index) {
+      localStorage.removeItem(todoItem.item);
+      this.todoItems.splice(index, 1);
+    },
+    toggleOneItem(todoItem) {
+      todoItem.completed = !todoItem.completed;
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    },
+    clearAllItem() {
+      this.todoItems = [];
+      localStorage.clear();
+    }
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
